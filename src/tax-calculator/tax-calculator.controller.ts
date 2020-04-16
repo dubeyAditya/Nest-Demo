@@ -1,6 +1,7 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param,Post, UsePipes, ValidationPipe, Body } from '@nestjs/common';
 import { TaxCalculatorService } from './tax-calculator.service';
 import { TaxRules } from './tax-calculator.model';
+import { CalculteTaxDto } from './dto/calculate-tax.dto';
 
 @Controller()
 export class TaxCalculatorController {
@@ -13,9 +14,16 @@ export class TaxCalculatorController {
         return "Hello Nest Js!!!";
     }
 
-    @Get('/:year')
+    @Get('/getTaxRule/:year')
     getTaxRulesByYear(@Param('year') year:number): TaxRules{
         return this.taxService.getTaxRulesByYear(year);
     }
+
+    @Post('/calculateTax')
+    @UsePipes(ValidationPipe)
+    calculateTax(@Body() calculateTaxDto: CalculteTaxDto) : number{
+        return this.taxService.calculateTaxForUser(calculateTaxDto);
+    }
+
 
 }

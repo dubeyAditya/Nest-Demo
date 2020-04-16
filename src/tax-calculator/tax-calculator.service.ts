@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { TaxRules, AgeCriterial, CessCriterial } from './tax-calculator.model';
 import * as uuid from 'uuid/v1';
 import { CalculteTaxDto } from './dto/calculate-tax.dto';
@@ -14,7 +14,10 @@ export class TaxCalculatorService {
 
     getTaxRulesByYear(year: number): TaxRules {
         //TODO fetch TaxRules
-        return null;
+        const taxRule = null;
+        if(!taxRule)
+            throw new NotFoundException(`No Tax Rules found for the Year ${year}` );
+        return taxRule;
     }
 
     calculateTaxForUser(calculateTaxDto: CalculteTaxDto): number {
