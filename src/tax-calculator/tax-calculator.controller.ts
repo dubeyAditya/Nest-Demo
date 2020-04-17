@@ -1,13 +1,11 @@
-import { Controller, Get, Param,Post, UsePipes, ValidationPipe, Body } from '@nestjs/common';
+import { Controller, Get, Param,Post, UsePipes, ValidationPipe, Body, ParseIntPipe } from '@nestjs/common';
 import { TaxCalculatorService } from './tax-calculator.service';
-import { TaxRules } from './tax-calculator.model';
+import { TaxRules } from './entity/tax-calculator.entity';
 import { CalculteTaxDto } from './dto/calculate-tax.dto';
 
 @Controller()
 export class TaxCalculatorController {
-    constructor(private taxService: TaxCalculatorService){
-
-    }
+    constructor(private taxService: TaxCalculatorService){}
 
     @Get()
     getHello(){
@@ -15,7 +13,7 @@ export class TaxCalculatorController {
     }
 
     @Get('/getTaxRule/:year')
-    getTaxRulesByYear(@Param('year') year:number): TaxRules{
+    getTaxRulesByYear(@Param('year',ParseIntPipe) year:number): Promise<TaxRules>{
         return this.taxService.getTaxRulesByYear(year);
     }
 

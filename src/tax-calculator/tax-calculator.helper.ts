@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { AgeCriterial, CessCriterial } from "./tax-calculator.model";
+import { AgeCriterial, CessCriterial } from "./entity/tax-calculator.entity";
 import { Calculator } from "./tax-calculator.utility";
 
 @Injectable()

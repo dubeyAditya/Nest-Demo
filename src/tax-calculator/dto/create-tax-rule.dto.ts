@@ -1,4 +1,4 @@
-import { AgeCriterial, CessCriterial } from "../tax-calculator.model";
+import { AgeCriterial, CessCriterial } from "../entity/tax-calculator.entity";
 import {IsNumber, IsNotEmpty} from 'class-validator';
 
 export class CreateTaxRuleDto{

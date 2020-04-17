@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
 import { TaxCalculatorModule } from './tax-calculator/tax-calculator.module';
-import config from './config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { typrOrmConfig } from './config/typeorm.config';
 
 
 @Module({
   imports: [TaxCalculatorModule,
-    MongooseModule.forRoot(config.mongoConnectionUrl) 
+    TypeOrmModule.forRoot(typrOrmConfig), 
   ],
 })
 export class AppModule {}
