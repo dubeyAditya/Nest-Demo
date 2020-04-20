@@ -10,7 +10,7 @@ export class TaxCalculatorRepository extends Repository<TaxRules>{
         taxRules.taxFreeLimit = createTaxRuleDto.taxFreeLimit;
         taxRules.ageRangeCriterial = createTaxRuleDto.ageRangeCriterial;
         taxRules.cessCriteria = createTaxRuleDto.cessCriteria;
-        taxRules.salaryRangeCriteria = createTaxRuleDto.salaryRangeCriteria;
+        taxRules.salaryRangeCriteria =createTaxRuleDto.salaryRangeCriteria;
         
         await taxRules.save();
         return taxRules;

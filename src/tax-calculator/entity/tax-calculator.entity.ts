@@ -1,8 +1,8 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from "typeorm"
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, ObjectIdColumn } from "typeorm"
 
 @Entity()
 export class AgeCriterial extends BaseEntity {
-    @PrimaryGeneratedColumn()
+    @ObjectIdColumn()
     id : number;
     @Column()
     age : number;
@@ -12,7 +12,7 @@ export class AgeCriterial extends BaseEntity {
 
 @Entity()
 export class CessCriterial extends BaseEntity{
-    @PrimaryGeneratedColumn()
+    @ObjectIdColumn()
     id : number;
     @Column()
     taxAmmountLimit : number;
@@ -21,13 +21,30 @@ export class CessCriterial extends BaseEntity{
 }
 
 @Entity()
-export class TaxRules extends BaseEntity{
-
-    @PrimaryGeneratedColumn()
-    id : string;
+export class SalaryRangeCriteria extends BaseEntity{
+    @ObjectIdColumn()
+    id : number;
     
     @Column()
-    salaryRangeCriteria : Map<number,number>;
+    lowerLimit :number;
+    
+    @Column()
+    upperLimit : number;
+    
+    @Column()
+    pecentageDeduction : number;
+}
+
+
+@Entity()
+export class TaxRules extends BaseEntity{
+
+    @ObjectIdColumn()
+    id : number;
+    
+    @OneToOne(type =>SalaryRangeCriteria)
+    @JoinColumn()
+    salaryRangeCriteria : SalaryRangeCriteria[];
     
     @Column()
     year : number;

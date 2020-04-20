@@ -1,14 +1,12 @@
-import { AgeCriterial, CessCriterial } from "../entity/tax-calculator.entity";
+import { AgeCriterial, CessCriterial, SalaryRangeCriteria } from "../entity/tax-calculator.entity";
 import {IsNumber, IsNotEmpty} from 'class-validator';
 
 export class CreateTaxRuleDto{
     @IsNotEmpty()
-    salaryRangeCriteria : Map<number,number>;
+    salaryRangeCriteria : SalaryRangeCriteria[];
     @IsNumber()
     year : number;
-    @IsNotEmpty()
     ageRangeCriterial : AgeCriterial;
-    @IsNotEmpty()
     cessCriteria : CessCriterial;
     @IsNumber()
     taxFreeLimit :number;
