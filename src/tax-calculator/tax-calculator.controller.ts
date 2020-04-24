@@ -1,10 +1,12 @@
-import { Controller, Get, Param,Post, UsePipes, ValidationPipe, Body, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Param,Post, UsePipes, ValidationPipe, Body, ParseIntPipe, UseGuards } from '@nestjs/common';
 import { TaxCalculatorService } from './tax-calculator.service';
 import { TaxRules } from './entity/tax-calculator.entity';
 import { CalculteTaxDto } from './dto/calculate-tax.dto';
 import { CreateTaxRuleDto } from './dto/create-tax-rule.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller()
+@UseGuards(AuthGuard())
 export class TaxCalculatorController {
     constructor(private taxService: TaxCalculatorService){}
 

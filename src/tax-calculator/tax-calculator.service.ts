@@ -18,7 +18,7 @@ export class TaxCalculatorService {
 
    async getTaxRulesByYear(year: number): Promise<TaxRules> {
         //TODO fetch TaxRules
-        const taxRule = await this.repository.findOne({year:year});
+        const taxRule = await this.repository.findOne({year});
         if(!taxRule)
             throw new NotFoundException(`No Tax Rules found for the Year ${year}` );
         return taxRule;
@@ -27,7 +27,7 @@ export class TaxCalculatorService {
     calculateTaxForUser(calculateTaxDto: CalculteTaxDto): number {
         const { year, yearlySalary, taxFreeInverstment, age } = calculateTaxDto;
 
-        let taxRules = this.getTaxRulesByYear(year);
+        const taxRules = this.getTaxRulesByYear(year);
 
         // let remainingSalary = this.taxServiceHelper.calculateNetTaxableIncome(yearlySalary, taxRules.taxFreeLimit);
         // if (!this.calculator.checkIfAmtGreaterThanZero(remainingSalary))

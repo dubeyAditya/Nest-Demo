@@ -18,7 +18,7 @@ export class TaxCalculatorServiceHelper{
     }
 
     applySalaryRangeReduction(ammount:number,salaryRangeCriteria : Map<number,number>):number{
-        let taxAmmount : number = 0 ;
+        let taxAmmount  = 0 ;
         salaryRangeCriteria.forEach((value:number,key:number)=>{
             if(ammount<key){
                taxAmmount+= this.calculator.calculatePercantValue(ammount,value);
