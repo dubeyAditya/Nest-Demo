@@ -9,7 +9,7 @@ export class UserRepository extends Repository<User>{
 
     async saveUser(authUser: AuthUserDto): Promise<User> {
         const user = new User();
-        user.salt = await bcrypt.getSalt();
+        user.salt = await bcrypt.genSalt();
         user.userName = authUser.userName;
         user.password = await bcrypt.hash(authUser.password, user.salt);
         try {
