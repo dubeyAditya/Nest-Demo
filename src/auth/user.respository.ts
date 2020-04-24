@@ -4,11 +4,11 @@ import { AuthUserDto } from "./dto/authUser";
 import { ConflictException, InternalServerErrorException } from "@nestjs/common";
 import * as bcrypt from 'bcrypt';
 
-@EntityRepository()
+@EntityRepository(User)
 export class UserRepository extends Repository<User>{
 
     async saveUser(authUser: AuthUserDto): Promise<User> {
-        let user = new User();
+        const user = new User();
         user.salt = await bcrypt.getSalt();
         user.userName = authUser.userName;
         user.password = await bcrypt.hash(authUser.password, user.salt);

@@ -3,7 +3,7 @@ import { AuthUserDto } from './dto/authUser';
 import { AuthService } from './auth.service';
 import { User } from './user.entity';
 
-@Controller()
+@Controller('/auth')
 export class AuthController {
     constructor(private authService: AuthService) { }
 
