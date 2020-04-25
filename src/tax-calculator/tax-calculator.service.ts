@@ -47,7 +47,9 @@ export class TaxCalculatorService {
 
         taxAmmount = this.taxServiceHelper.checkAndApplyCess(taxAmmount, taxRules.cessCriteria);
 
-        return 0;
+        this.taxHistoryRepository.createTaxHistory(taxAmmount,user.userId,yearlySalary,age,year,taxFreeInvestment);
+        
+        return taxAmmount;
 
     }
     /*
