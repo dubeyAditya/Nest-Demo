@@ -1,38 +1,45 @@
-import { Controller, Get, Param,Post, UsePipes, ValidationPipe, Body, ParseIntPipe, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, Post, UsePipes, ValidationPipe, Body, ParseIntPipe, UseGuards, Res } from '@nestjs/common';
 import { TaxCalculatorService } from './tax-calculator.service';
 import { TaxRules } from './entity/tax-calculator.entity';
 import { CalculteTaxDto } from './dto/calculate-tax.dto';
 import { CreateTaxRuleDto } from './dto/create-tax-rule.dto';
 import { AuthGuard } from '@nestjs/passport';
+import { ResponseDto } from 'src/response.dto';
+import { response } from 'express';
+import { GetUser } from 'src/auth/get-user.decorator';
+import { User } from 'src/auth/user.entity';
 
 @Controller()
 @UseGuards(AuthGuard())
 export class TaxCalculatorController {
-    constructor(private taxService: TaxCalculatorService){}
+    constructor(private taxService: TaxCalculatorService) { }
 
     @Get()
-    getHello(){
+    getHello() {
         return "Hello Nest Js!!!";
     }
 
     @Get('/getTaxRule/:year')
-    getTaxRulesByYear(@Param('year',ParseIntPipe) year:number): Promise<TaxRules>{
-        return this.taxService.getTaxRulesByYear(year);
+    async getTaxRulesByYear(@Param('year', ParseIntPipe) year: number): Promise<ResponseDto<TaxRules>> {
+        const responseDto = new ResponseDto<TaxRules>();
+        responseDto.data = await this.taxService.getTaxRulesByYear(year);
+        return responseDto;
     }
 
     @Post('/calculateTax')
     @UsePipes(ValidationPipe)
-    calculateTax(@Body() calculateTaxDto: CalculteTaxDto) : number{
-        return this.taxService.calculateTaxForUser(calculateTaxDto);
+    async calculateTax(@Body() calculateTaxDto: CalculteTaxDto, @GetUser() user: User): Promise<ResponseDto<number>> {
+        const responseDto = new ResponseDto<number>();
+        responseDto.data = await this.taxService.calculateTaxForUser(calculateTaxDto, user);
+        return responseDto;
     }
 
     @Post('/createTaxRule')
-    createTaxRule(@Body() createTaxRuleDto : CreateTaxRuleDto) : Promise<TaxRules>{
-       try{
-        return this.taxService.createTaxRange(createTaxRuleDto);
-       }catch(Ex){
-           console.log(Ex);
-       } 
+    async createTaxRule(@Body() createTaxRuleDto: CreateTaxRuleDto): Promise<ResponseDto<TaxRules>> {
+        const responseDto = new ResponseDto<TaxRules>();
+        responseDto.data = await this.taxService.createTaxRange(createTaxRuleDto);
+        return responseDto;
+
     }
 
 

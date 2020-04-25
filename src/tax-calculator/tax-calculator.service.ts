@@ -7,39 +7,45 @@ import { Calculator } from './tax-calculator.utility';
 import { CreateTaxRuleDto } from './dto/create-tax-rule.dto';
 import { TaxCalculatorRepository } from './tax-calculator.repository';
 import { InjectRepository } from '@nestjs/typeorm';
+import { User } from 'src/auth/user.entity';
+import { TaxHistoryRepository } from 'src/user-tax-history/user-tax-history.repository';
 
 @Injectable()
 export class TaxCalculatorService {
 
     constructor(private taxServiceHelper: TaxCalculatorServiceHelper,
-        private calculator: Calculator, 
+        private calculator: Calculator,
+        @InjectRepository(TaxHistoryRepository)
+        private taxHistoryRepository: TaxHistoryRepository,
         @InjectRepository(TaxCalculatorRepository)
-        private repository : TaxCalculatorRepository) { }
+        private repository: TaxCalculatorRepository) { }
 
-   async getTaxRulesByYear(year: number): Promise<TaxRules> {
-        //TODO fetch TaxRules
-        const taxRule = await this.repository.findOne({year});
-        if(!taxRule)
-            throw new NotFoundException(`No Tax Rules found for the Year ${year}` );
+    async getTaxRulesByYear(year: number): Promise<TaxRules> {
+
+        const taxRule = await this.repository.findOne({ year });
+        if (!taxRule) {
+
+            throw new NotFoundException(`No Tax Rules found for the Year ${year}`);
+        }
         return taxRule;
     }
 
-    calculateTaxForUser(calculateTaxDto: CalculteTaxDto): number {
-        const { year, yearlySalary, taxFreeInverstment, age } = calculateTaxDto;
+    async calculateTaxForUser(calculateTaxDto: CalculteTaxDto, user: User): Promise<number> {
+        const { year, yearlySalary, taxFreeInvestment, age } = calculateTaxDto;
 
-        const taxRules = this.getTaxRulesByYear(year);
+        const taxRules = await this.getTaxRulesByYear(year);
 
-        // let remainingSalary = this.taxServiceHelper.calculateNetTaxableIncome(yearlySalary, taxRules.taxFreeLimit);
-        // if (!this.calculator.checkIfAmtGreaterThanZero(remainingSalary))
-        //     return 0;
-        // remainingSalary = this.taxServiceHelper.applyAgeReduction(remainingSalary, taxRules.ageRangeCriterial, age);
+        let remainingSalary = this.taxServiceHelper.calculateNetTaxableIncome(yearlySalary, taxRules.taxFreeLimit);
+        if (!this.calculator.checkIfAmtGreaterThanZero(remainingSalary))
+            return 0;
+        remainingSalary = this.taxServiceHelper.applyAgeReduction(remainingSalary, taxRules.ageRangeCriterial, age);
 
-        // if (!this.calculator.checkIfAmtGreaterThanZero(remainingSalary))
-        //     return 0;
+        if (!this.calculator.checkIfAmtGreaterThanZero(remainingSalary))
+            return 0;
 
-        // let taxAmmount = this.taxServiceHelper.applySalaryRangeReduction(remainingSalary, taxRules.salaryRangeCriteria);
+        let taxAmmount = this.taxServiceHelper.applySalaryRangeReduction(remainingSalary, taxRules.salaryRangeCriteria);
 
-        // taxAmmount = this.taxServiceHelper.checkAndApplyCess(taxAmmount, taxRules.cessCriteria);
+        taxAmmount = this.taxServiceHelper.checkAndApplyCess(taxAmmount, taxRules.cessCriteria);
 
         return 0;
 

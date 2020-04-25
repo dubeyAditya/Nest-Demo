@@ -6,7 +6,7 @@ export class CalculteTaxDto{
     @IsNumber()
     yearlySalary : number;
     @IsNumber()
-    taxFreeInverstment : number;
+    taxFreeInvestment : number;
     @IsNumber()
     age : number;
 }
