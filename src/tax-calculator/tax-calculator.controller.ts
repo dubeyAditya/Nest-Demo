@@ -1,22 +1,18 @@
-import { Controller, Get, Param, Post, UsePipes, ValidationPipe, Body, ParseIntPipe, UseGuards, Res } from '@nestjs/common';
+import { Controller, Get, Param, Post, UsePipes, ValidationPipe, Body, ParseIntPipe, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { TaxCalculatorService } from './tax-calculator.service';
 import { TaxRules } from './entity/tax-calculator.entity';
 import { CalculteTaxDto } from './dto/calculate-tax.dto';
 import { CreateTaxRuleDto } from './dto/create-tax-rule.dto';
-import { AuthGuard } from '@nestjs/passport';
 import { ResponseDto } from 'src/response.dto';
-import { response } from 'express';
 import { GetUser } from 'src/auth/get-user.decorator';
 import { User } from 'src/auth/user.entity';
 
-@Controller()
+@Controller('taxCalculator')
 @UseGuards(AuthGuard())
 export class TaxCalculatorController {
-    constructor(private taxService: TaxCalculatorService) { }
-
-    @Get()
-    getHello() {
-        return "Hello Nest Js!!!";
+    constructor(private taxService: TaxCalculatorService) { 
+        
     }
 
     @Get('/getTaxRule/:year')
