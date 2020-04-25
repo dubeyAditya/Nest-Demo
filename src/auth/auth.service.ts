@@ -15,14 +15,15 @@ export class AuthService {
         (UserRepository) private userRepository: UserRepository) { }
 
 
-    async signUp(authUser: AuthUserDto): Promise<User> {
-        return await this.userRepository.saveUser(authUser);
+    async signUp(authUser: AuthUserDto): Promise<number> {
+        const user = await this.userRepository.saveUser(authUser);
+        return user.userId;
     }
 
     async signIn(authUser: AuthUserDto): Promise<{accessToken: string}> {
         let userName = await this.userRepository.validateUser(authUser);
         if (!userName) {
-            throw new UnauthorizedException('User name or Password is Incorrect!!');
+            throw new UnauthorizedException('Username or Password is Incorrect!!');
         }
 
         const payLoad: JwtPayload = {userName};
