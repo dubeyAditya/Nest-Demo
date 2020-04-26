@@ -13,10 +13,11 @@ export class TaxCalculatorRepository extends Repository<TaxRules>{
         taxRules.ageRangeCriterial = createTaxRuleDto.ageRangeCriterial;
         taxRules.cessCriteria = createTaxRuleDto.cessCriteria;
         taxRules.salaryRangeCriteria = createTaxRuleDto.salaryRangeCriteria;
+        this.logger.debug(`Tax Rules ${JSON.stringify(taxRules)}`)
         this.logger.debug('Year: '+ createTaxRuleDto.year);
-        this.logger.debug('Year: '+ createTaxRuleDto.taxFreeLimit);
-        this.logger.debug('Year: '+ createTaxRuleDto.ageRangeCriterial);
-        this.logger.debug('Year: '+ createTaxRuleDto.cessCriteria);
+        this.logger.debug('Tax Free Limit: '+ createTaxRuleDto.taxFreeLimit);
+        this.logger.debug('Agr Range Criteria: '+ createTaxRuleDto.ageRangeCriterial);
+        this.logger.debug('Cess Criteria: '+ JSON.stringify(createTaxRuleDto.cessCriteria));
         await taxRules.save();
         return taxRules;
     }

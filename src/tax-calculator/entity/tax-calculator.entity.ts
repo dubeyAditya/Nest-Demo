@@ -42,8 +42,7 @@ export class TaxRules extends BaseEntity {
     @ObjectIdColumn()
     id: number;
 
-    @OneToOne(type => SalaryRangeCriteria)
-    @JoinColumn()
+    @Column(type => SalaryRangeCriteria)
     salaryRangeCriteria: SalaryRangeCriteria[];
 
     @Column()
@@ -52,12 +51,10 @@ export class TaxRules extends BaseEntity {
     @Column()
     taxFreeLimit: number;
 
-    @OneToOne(type => AgeCriterial)
-    @JoinColumn()
+    @Column(type => AgeCriterial)
     ageRangeCriterial: AgeCriterial;
 
-    @OneToOne(type => CessCriterial)
-    @JoinColumn()
+    @Column(type => CessCriterial)
     cessCriteria: CessCriterial;
 
 
