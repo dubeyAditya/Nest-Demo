@@ -1,9 +1,9 @@
-import { BaseEntity, Entity, Column, PrimaryColumn } from "typeorm"
+import { BaseEntity, Entity, Column, ObjectIdColumn } from "typeorm";
 
 @Entity()
 export class TaxHistory extends BaseEntity{
 
-    @PrimaryColumn()
+    @ObjectIdColumn()
     userId: number;
     
     @Column()

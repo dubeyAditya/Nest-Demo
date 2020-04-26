@@ -1,4 +1,4 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, ObjectIdColumn } from "typeorm"
+import { BaseEntity, Entity, Column, ObjectIdColumn } from "typeorm";
 
 @Entity()
 export class AgeCriterial extends BaseEntity {

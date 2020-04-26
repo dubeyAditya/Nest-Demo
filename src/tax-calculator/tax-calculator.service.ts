@@ -7,10 +7,7 @@ import { CreateTaxRuleDto } from './dto/create-tax-rule.dto';
 import { TaxCalculatorRepository } from './tax-calculator.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/auth/user.entity';
-import { TaxHistoryRepository } from 'src/user-tax-history/user-tax-history.repository';
-import { json } from 'express';
-import { getMongoManager, getMongoRepository } from 'typeorm';
-import { IsEmpty } from 'class-validator';
+import { TaxHistoryRepository } from '../user-tax-history/user-tax-history.repository';
 
 
 @Injectable()
@@ -26,12 +23,8 @@ export class TaxCalculatorService {
     }
 
     async getTaxRulesByYear(year: number): Promise<TaxRules> {
-        const entityManager = getMongoRepository(TaxRules);
-       
         const taxRules: TaxRules[] = await this.repository.find();
-        this.logger.debug(`Tax Rules ${JSON.stringify(taxRules)}`)
         const taxRule = taxRules.filter((taxRule)=>taxRule.year == year)
-        this.logger.debug(`Tax Rules ${JSON.stringify(taxRule)}`)
         if (!taxRule.length) {
             throw new NotFoundException(`No Tax Rules found for the Year ${year}`);
         }
@@ -56,7 +49,7 @@ export class TaxCalculatorService {
 
         taxAmmount = this.taxServiceHelper.checkAndApplyCess(taxAmmount, taxRules.cessCriteria);
 
-        this.taxHistoryRepository.createTaxHistory(taxAmmount, user.userId, yearlySalary, age, year, taxFreeInvestment);
+        await this.taxHistoryRepository.createTaxHistory(taxAmmount, user.userId, yearlySalary, age, year, taxFreeInvestment);
 
         return taxAmmount;
 

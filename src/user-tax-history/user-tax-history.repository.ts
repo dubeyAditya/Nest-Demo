@@ -13,7 +13,7 @@ export class TaxHistoryRepository extends Repository<TaxHistory>{
         taxHistory.yearlySalary = yearlySal;
         taxHistory.result = result;
         taxHistory.taxFreeInvestment = taxFreeInvestment;
-
-        return await taxHistory.save();
+        await taxHistory.save();
+        return taxHistory;
     }
 }

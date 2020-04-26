@@ -12,6 +12,6 @@ export const typrOrmConfig : TypeOrmModuleOptions = {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     entities : [__dirname + '/../**/*.entity.{js,ts}'],
-    synchronize : false,
+    synchronize : true,
     logging: ["query"]
 }
