@@ -7,11 +7,11 @@ export class AuthUserDto {
     userName : string;
     
     @IsString()
-    @MinLength(4)
+    @MinLength(8)
     @MaxLength(20)
     @Matches(
         /((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/,
-        {message:'Password is too weak'}
+        {message:'Password is too weak! Should contain atleast [a-z] and [A-Z] and any of #,@,$,%,&,*'}
         )
     password : string;
 }
