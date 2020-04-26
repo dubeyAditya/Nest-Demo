@@ -3,63 +3,63 @@ import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColum
 @Entity()
 export class AgeCriterial extends BaseEntity {
     @ObjectIdColumn()
-    id : number;
+    id: number;
     @Column()
-    age : number;
+    age: number;
     @Column()
-    ammountToDeduct : number;
+    ammountToDeduct: number;
 }
 
 @Entity()
-export class CessCriterial extends BaseEntity{
+export class CessCriterial extends BaseEntity {
     @ObjectIdColumn()
-    id : number;
+    id: number;
     @Column()
-    taxAmmountLimit : number;
+    taxAmmountLimit: number;
     @Column()
-    percentCess : number;
+    percentCess: number;
 }
 
 @Entity()
-export class SalaryRangeCriteria extends BaseEntity{
+export class SalaryRangeCriteria extends BaseEntity {
     @ObjectIdColumn()
-    id : number;
-    
+    id: number;
+
     @Column()
-    lowerLimit :number;
-    
+    lowerLimit: number;
+
     @Column()
-    upperLimit : number;
-    
+    upperLimit: number;
+
     @Column()
-    pecentageDeduction : number;
+    pecentageDeduction: number;
 }
 
 
 @Entity()
-export class TaxRules extends BaseEntity{
+export class TaxRules extends BaseEntity {
 
     @ObjectIdColumn()
-    id : number;
-    
-    @OneToOne(type =>SalaryRangeCriteria)
-    @JoinColumn()
-    salaryRangeCriteria : SalaryRangeCriteria[];
-    
-    @Column()
-    year : number;
-    
-    @Column()
-    taxFreeLimit :number;
+    id: number;
 
-    @OneToOne(type =>AgeCriterial)
+    @OneToOne(type => SalaryRangeCriteria)
     @JoinColumn()
-    ageRangeCriterial : AgeCriterial;
+    salaryRangeCriteria: SalaryRangeCriteria[];
 
-    @OneToOne(type =>CessCriterial)
+    @Column()
+    year: number;
+
+    @Column()
+    taxFreeLimit: number;
+
+    @OneToOne(type => AgeCriterial)
     @JoinColumn()
-    cessCriteria : CessCriterial;
-    
-    
+    ageRangeCriterial: AgeCriterial;
+
+    @OneToOne(type => CessCriterial)
+    @JoinColumn()
+    cessCriteria: CessCriterial;
+
+
 }
 

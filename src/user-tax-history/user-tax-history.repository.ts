@@ -4,7 +4,7 @@ import { TaxHistory } from "./entity/user-tax-history.entity";
 @EntityRepository(TaxHistory)
 export class TaxHistoryRepository extends Repository<TaxHistory>{
 
-    async createTaxHistory(result: number, userId: number, yearlySal: number, 
+    async createTaxHistory(result: number, userId: number, yearlySal: number,
         age: number, year: number, taxFreeInvestment: number): Promise<TaxHistory> {
         const taxHistory = new TaxHistory();
         taxHistory.age = age;
@@ -12,9 +12,8 @@ export class TaxHistoryRepository extends Repository<TaxHistory>{
         taxHistory.year = year;
         taxHistory.yearlySalary = yearlySal;
         taxHistory.result = result;
+        taxHistory.taxFreeInvestment = taxFreeInvestment;
 
-        await taxHistory.save();
-
-        return taxHistory;
+        return await taxHistory.save();
     }
 }

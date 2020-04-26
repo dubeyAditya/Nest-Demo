@@ -15,6 +15,13 @@ export class TaxCalculatorController {
         
     }
 
+    @Get('/access')
+    async loin() : Promise<ResponseDto<string>>{
+        const response = new ResponseDto<string>();
+        response.data = 'authenticated';
+        return response;
+    }
+
     @Get('/getTaxRule/:year')
     async getTaxRulesByYear(@Param('year', ParseIntPipe) year: number): Promise<ResponseDto<TaxRules>> {
         const responseDto = new ResponseDto<TaxRules>();
@@ -35,7 +42,6 @@ export class TaxCalculatorController {
         const responseDto = new ResponseDto<TaxRules>();
         responseDto.data = await this.taxService.createTaxRange(createTaxRuleDto);
         return responseDto;
-
     }
 
 

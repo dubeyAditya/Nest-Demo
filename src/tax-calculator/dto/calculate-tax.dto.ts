@@ -1,12 +1,12 @@
-import {IsNotEmpty, IsNumber} from 'class-validator';
+import { IsNumber } from 'class-validator';
 
-export class CalculteTaxDto{
+export class CalculteTaxDto {
     @IsNumber()
     year: number;
     @IsNumber()
-    yearlySalary : number;
+    yearlySalary: number;
     @IsNumber()
-    taxFreeInvestment : number;
+    taxFreeInvestment: number;
     @IsNumber()
-    age : number;
+    age: number;
 }

@@ -1,6 +1,5 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { TaxRules, AgeCriterial, CessCriterial } from './entity/tax-calculator.entity';
-import * as uuid from 'uuid/v1';
+import { Injectable, NotFoundException, Logger } from '@nestjs/common';
+import { TaxRules } from './entity/tax-calculator.entity';
 import { CalculteTaxDto } from './dto/calculate-tax.dto';
 import { TaxCalculatorServiceHelper } from './tax-calculator.helper';
 import { Calculator } from './tax-calculator.utility';
@@ -12,19 +11,20 @@ import { TaxHistoryRepository } from 'src/user-tax-history/user-tax-history.repo
 
 @Injectable()
 export class TaxCalculatorService {
-
+    private logger;
     constructor(private taxServiceHelper: TaxCalculatorServiceHelper,
         private calculator: Calculator,
         @InjectRepository(TaxHistoryRepository)
         private taxHistoryRepository: TaxHistoryRepository,
         @InjectRepository(TaxCalculatorRepository)
-        private repository: TaxCalculatorRepository) { }
+        private repository: TaxCalculatorRepository) {
+        this.logger = new Logger("TaxCalculatorService");
+    }
 
     async getTaxRulesByYear(year: number): Promise<TaxRules> {
 
         const taxRule = await this.repository.findOne({ year });
         if (!taxRule) {
-
             throw new NotFoundException(`No Tax Rules found for the Year ${year}`);
         }
         return taxRule;
@@ -32,6 +32,7 @@ export class TaxCalculatorService {
 
     async calculateTaxForUser(calculateTaxDto: CalculteTaxDto, user: User): Promise<number> {
         const { year, yearlySalary, taxFreeInvestment, age } = calculateTaxDto;
+        this.logger.debug('User Income Details', calculateTaxDto);
 
         const taxRules = await this.getTaxRulesByYear(year);
 
@@ -47,8 +48,8 @@ export class TaxCalculatorService {
 
         taxAmmount = this.taxServiceHelper.checkAndApplyCess(taxAmmount, taxRules.cessCriteria);
 
-        this.taxHistoryRepository.createTaxHistory(taxAmmount,user.userId,yearlySalary,age,year,taxFreeInvestment);
-        
+        this.taxHistoryRepository.createTaxHistory(taxAmmount, user.userId, yearlySalary, age, year, taxFreeInvestment);
+
         return taxAmmount;
 
     }
