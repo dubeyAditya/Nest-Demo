@@ -5,9 +5,9 @@ import { TaxCalculatorServiceHelper } from './tax-calculator.helper';
 import { Calculator } from './tax-calculator.utility';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TaxCalculatorRepository } from './tax-calculator.repository';
-import { AuthModule } from 'src/auth/auth.module';
-import { UserTaxHistoryModule } from 'src/user-tax-history/user-tax-history.module';
-import { TaxHistoryRepository } from 'src/user-tax-history/user-tax-history.repository';
+import { AuthModule } from '../auth/auth.module';
+import { UserTaxHistoryModule } from '../user-tax-history/user-tax-history.module';
+import { TaxHistoryRepository } from '../user-tax-history/user-tax-history.repository';
 
 @Module({
   imports :[TypeOrmModule.forFeature([TaxCalculatorRepository,TaxHistoryRepository]),

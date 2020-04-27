@@ -7,8 +7,7 @@ import { CreateTaxRuleDto } from './dto/create-tax-rule.dto';
 import { TaxCalculatorRepository } from './tax-calculator.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/auth/user.entity';
-import { TaxHistoryRepository } from '../user-tax-history/user-tax-history.repository';
-import { UserTaxHistoryService } from 'src/user-tax-history/user-tax-history.service';
+import { UserTaxHistoryService } from '../user-tax-history/user-tax-history.service';
 
 
 @Injectable()
@@ -37,11 +36,12 @@ export class TaxCalculatorService {
 
         const taxRules = await this.getTaxRulesByYear(year);
 
-        let remainingSalary = this.taxServiceHelper.calculateNetTaxableIncome(yearlySalary, taxRules.taxFreeLimit);
+        let remainingSalary = this.taxServiceHelper.calculateNetTaxableIncome(yearlySalary, taxRules.taxFreeLimit,taxFreeInvestment);
+        this.logger.debug(`Remaining sal after reducing taxable income ${remainingSalary}`);
         if (!this.calculator.checkIfAmtGreaterThanZero(remainingSalary))
             return 0;
         remainingSalary = this.taxServiceHelper.applyAgeReduction(remainingSalary, taxRules.ageRangeCriterial, age);
-
+        this.logger.debug(`Remaining sal after reducing Age deductions ${remainingSalary}`);
         if (!this.calculator.checkIfAmtGreaterThanZero(remainingSalary))
             return 0;
 

@@ -1,4 +1,4 @@
-import { BaseEntity, Entity, Column, ObjectIdColumn } from "typeorm";
+import { BaseEntity, Entity, Column, ObjectIdColumn, BeforeInsert } from "typeorm";
 import { ObjectID } from "mongodb";
 
 @Entity()
@@ -24,5 +24,14 @@ export class TaxHistory extends BaseEntity{
     
     @Column()
     age : number;
+
+    
+    @Column()
+    dateCreated: Date;
+
+    @BeforeInsert()
+    addCurrentDate(){
+        this.dateCreated = new Date();
+    }
 
 }
