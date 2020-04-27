@@ -1,4 +1,4 @@
-import { Controller, UseGuards, Post } from '@nestjs/common';
+import { Controller, UseGuards, Get } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from 'src/auth/get-user.decorator';
 import { User } from 'src/auth/user.entity';
@@ -11,7 +11,7 @@ import { UserTaxHistoryService } from './user-tax-history.service';
 export class UserTaxHistoryController {
     constructor(private service: UserTaxHistoryService){}
 
-    @Post('/getTaxHistory')
+    @Get('/getTaxHistory')
     async getUserTaxHistory(@GetUser() user: User): Promise<ResponseDto<TaxHistory[]>>{
         
         const responseDto = new ResponseDto<TaxHistory[]>();
