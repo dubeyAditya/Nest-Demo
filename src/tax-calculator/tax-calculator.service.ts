@@ -8,6 +8,7 @@ import { TaxCalculatorRepository } from './tax-calculator.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/auth/user.entity';
 import { TaxHistoryRepository } from '../user-tax-history/user-tax-history.repository';
+import { UserTaxHistoryService } from 'src/user-tax-history/user-tax-history.service';
 
 
 @Injectable()
@@ -15,8 +16,7 @@ export class TaxCalculatorService {
     private logger;
     constructor(private taxServiceHelper: TaxCalculatorServiceHelper,
         private calculator: Calculator,
-        @InjectRepository(TaxHistoryRepository)
-        private taxHistoryRepository: TaxHistoryRepository,
+        private taxHistoryService: UserTaxHistoryService,
         @InjectRepository(TaxCalculatorRepository)
         private repository: TaxCalculatorRepository) {
         this.logger = new Logger("TaxCalculatorService");
@@ -49,7 +49,7 @@ export class TaxCalculatorService {
 
         taxAmmount = this.taxServiceHelper.checkAndApplyCess(taxAmmount, taxRules.cessCriteria);
 
-        await this.taxHistoryRepository.createTaxHistory(taxAmmount, user.userId, yearlySalary, age, year, taxFreeInvestment);
+        await this.taxHistoryService.saveUserHistory(taxAmmount, user.userId, yearlySalary, age, year, taxFreeInvestment);
 
         return taxAmmount;
 

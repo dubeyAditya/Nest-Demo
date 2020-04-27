@@ -1,9 +1,13 @@
 import { BaseEntity, Entity, Column, ObjectIdColumn } from "typeorm";
+import { ObjectID } from "mongodb";
 
 @Entity()
 export class TaxHistory extends BaseEntity{
 
     @ObjectIdColumn()
+    id: ObjectID;
+    
+    @Column()
     userId: number;
     
     @Column()

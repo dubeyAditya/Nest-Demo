@@ -8,6 +8,7 @@ import { AuthModule } from 'src/auth/auth.module';
 @Module({
   imports: [TypeOrmModule.forFeature([TaxHistoryRepository]),AuthModule],
   controllers: [UserTaxHistoryController],
-  providers: [UserTaxHistoryService,]
+  providers: [UserTaxHistoryService,],
+  exports: [UserTaxHistoryService]
 })
 export class UserTaxHistoryModule {}

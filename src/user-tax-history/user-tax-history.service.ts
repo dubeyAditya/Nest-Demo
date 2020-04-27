@@ -14,4 +14,10 @@ export class UserTaxHistoryService {
     async getUserTaxHistory(user: User): Promise<TaxHistory[]> {
         return this.taxHistoryRepository.find({ userId: user.userId });
     }
+
+    async saveUserHistory(result: number, userId: number, yearlySal: number,
+        age: number, year: number, taxFreeInvestment: number): Promise<TaxHistory>{
+        
+        return this.taxHistoryRepository.createTaxHistory(result,userId,yearlySal,age,year,taxFreeInvestment);
+    }
 }
